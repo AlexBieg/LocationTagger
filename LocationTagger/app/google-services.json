@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "332521971603-s83a7sl178qukp1mrs7rhteg5qsoiah8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.uw.group2.locationtagger",
+            "certificate_hash": "F5726F07BAAADF5F75218FFC0BE1EEEA3D8E257B"
+          }
+        },
+        {
           "client_id": "332521971603-k5ittvlbm0h9n99s0s0vd4le7mt3lar5.apps.googleusercontent.com",
           "client_type": 3
         }
