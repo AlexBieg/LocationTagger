@@ -46,6 +46,4 @@ public class AugmentedReality extends AppCompatActivity {
             super.onProgressUpdate(values);
         }
     }
-
-
 }
