@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "332521971603",
+    "firebase_url": "https://location-tagger.firebaseio.com",
+    "project_id": "location-tagger",
+    "storage_bucket": "location-tagger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332521971603:android:67d8b8327952468c",
+        "android_client_info": {
+          "package_name": "edu.uw.group2.locationtagger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332521971603-k5ittvlbm0h9n99s0s0vd4le7mt3lar5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpgB11AF8U9MDJZbHddF9zimwgcBcykR0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
