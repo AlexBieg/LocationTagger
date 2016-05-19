@@ -3,6 +3,7 @@ package edu.uw.group2.locationtagger;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,6 +23,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Firebase.setAndroidContext(this);
+        Firebase myFirebaseRef = new Firebase("https://location-tagger.firebaseio.com/");
+
     }
 
 
