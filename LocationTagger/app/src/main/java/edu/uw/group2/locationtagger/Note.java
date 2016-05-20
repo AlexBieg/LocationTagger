@@ -19,13 +19,18 @@ public class Note {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Note(String uid, String author, String title, String description, long dateTime, LatLng locaton) {
+    public Note(String title, String description, long dateTime, LatLng location) {
+        this("0", "anonymous", title, description, dateTime, location);
+
+    }
+
+    public Note(String uid, String author, String title, String description, long dateTime, LatLng location) {
         this.uid = uid;
         this.author = author;
         this.title = title;
         this.description = description;
         this.dateTime = dateTime;
-        this.location = locaton;
+        this.location = location;
     }
 
     @Exclude

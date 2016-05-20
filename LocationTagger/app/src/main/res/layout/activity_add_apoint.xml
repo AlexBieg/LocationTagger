@@ -22,7 +22,7 @@
         android:id="@+id/newDateText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pick Date"
+        android:text="@string/default_datepicker_text"
         android:textSize="20sp"
         android:textAlignment="center"
         android:onClick="openDatePicker"
@@ -45,6 +45,7 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:layout_below="@id/newDescription"
+        android:enabled="false"
         android:onClick="submitNew"/>
 
 </RelativeLayout>
