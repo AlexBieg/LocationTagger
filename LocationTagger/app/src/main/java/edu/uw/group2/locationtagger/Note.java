@@ -47,4 +47,8 @@ public class Note {
         return result;
     }
 
+    public String getTitle(){
+        return title;
+    }
+
 }
