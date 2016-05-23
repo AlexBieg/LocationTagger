@@ -42,6 +42,8 @@
         </activity>
         <activity android:name=".AddAPoint"></activity>
         <activity android:name=".TagList"></activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
         <activity
             android:name=".AugmentedReality"
             android:screenOrientation="landscape"></activity>
