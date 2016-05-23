@@ -154,7 +154,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location) {
         LatLng curr = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(curr));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curr, 15));
     }
 
     @Override
