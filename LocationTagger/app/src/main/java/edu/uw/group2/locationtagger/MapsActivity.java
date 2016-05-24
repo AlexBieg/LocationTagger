@@ -115,6 +115,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent newNote = new Intent(this, AddAPoint.class);
                 startActivity(newNote);
                 return true;
+            case R.id.settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
