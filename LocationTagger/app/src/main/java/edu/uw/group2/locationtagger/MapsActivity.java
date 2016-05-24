@@ -27,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -164,8 +165,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onLocationChanged(Location location) {
         if (firstLocationUpdate) {
             LatLng curr = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curr, 15));
+            setMapView(curr);
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curr, 15));
             firstLocationUpdate = false;
+        }
+    }
+
+    public void setMapView(LatLng location) {
+        if(location != null) {
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(location)
+                    .zoom(17)
+                    .build();
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            Log.v(TAG, location.toString());
+        } else {
+            Log.v(TAG, "Received null location");
         }
     }
 
