@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "332521971603",
-    "firebase_url": "https://location-tagger.firebaseio.com",
-    "project_id": "location-tagger",
-    "storage_bucket": "location-tagger.appspot.com"
+    "project_number": "900483821038",
+    "firebase_url": "https://fourth-splice-131619.firebaseio.com",
+    "project_id": "fourth-splice-131619",
+    "storage_bucket": "fourth-splice-131619.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:332521971603:android:67d8b8327952468c",
+        "mobilesdk_app_id": "1:900483821038:android:67d8b8327952468c",
         "android_client_info": {
           "package_name": "edu.uw.group2.locationtagger"
         }
       },
       "oauth_client": [
         {
-          "client_id": "332521971603-s83a7sl178qukp1mrs7rhteg5qsoiah8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "edu.uw.group2.locationtagger",
-            "certificate_hash": "F5726F07BAAADF5F75218FFC0BE1EEEA3D8E257B"
-          }
-        },
-        {
-          "client_id": "332521971603-k5ittvlbm0h9n99s0s0vd4le7mt3lar5.apps.googleusercontent.com",
+          "client_id": "900483821038-rnlge65m9c5ore7vlpg50pd8fbs959td.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBpgB11AF8U9MDJZbHddF9zimwgcBcykR0"
+          "current_key": "AIzaSyDoCoWdmtBuPWgl1uermGKAkwLTsuimfIo"
         }
       ],
       "services": {

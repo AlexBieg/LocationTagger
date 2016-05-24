@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,7 +25,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordField;
 
     private FirebaseAuth mAuth;
-
+    private Firebase mFirebaseRef;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -39,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.logOutBtn).setOnClickListener(this);
         findViewById(R.id.signupBtn).setOnClickListener(this);
 
+        Firebase.setAndroidContext(this);
+        mFirebaseRef = new Firebase("https://fourth-splice-131619.firebaseio.com/");
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
