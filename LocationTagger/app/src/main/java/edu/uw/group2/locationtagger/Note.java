@@ -46,6 +46,8 @@ public class Note {
         this.draw = false;
         this.distance = 0;
         this.angle = 0;
+        this.lat = location.latitude;
+        this.lng = location.longitude;
     }
 
     @Exclude

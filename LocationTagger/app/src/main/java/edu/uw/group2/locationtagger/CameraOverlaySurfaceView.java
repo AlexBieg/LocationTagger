@@ -24,7 +24,6 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
 
     private static final String TAG = "SurfaceView";
     private static final double MAX_VEIWING_DISTANCE = .5;
-    private static final int ANGLE_DIFFERENCE = 50;
 
     private int viewWidth, viewHeight; //size of the view
 
@@ -94,21 +93,22 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
      */
     public void update(){
         for (Note note : (ArrayList<Note>) notes.clone()) {
-            if (currentLocation != null && curLocationChanged) {
+            if (currentLocation != null && curLocationChanged){
+               // Log.v(TAG, note.title + ": " + note.angle);
                 //get distance
-                double currToTag = distanceBetweenTags(currentLocation, note);
+                double currToTag = distanceBetweenNotes(currentLocation, note);
                 note.distance = currToTag;
 
                 //only calculate if we are drawing it
                 if (note.distance <= MAX_VEIWING_DISTANCE) {
                     //create triangle to get distances and angles
                     Note helperTag = new Note(currentLocation.lat + 1, currentLocation.lng);
-                    double northLine = distanceBetweenTags(currentLocation, helperTag);
-                    double helpToTag = distanceBetweenTags(helperTag, note);
+                    double northLine = distanceBetweenNotes(currentLocation, helperTag);
+                    double helpToTag = distanceBetweenNotes(helperTag, note);
+                    Log.v(TAG, "current location: " + currentLocation.lat + ", " + currentLocation.lng);
 
                     //find angle
                     double angleInDegree = radToDeg(Math.acos((northLine * northLine + currToTag * currToTag - helpToTag * helpToTag) / (2 * northLine * currToTag)));
-
                     //shift angle to android version if needed
                     if (angleInDegree > 180) {
                         angleInDegree = angleInDegree - 360;
@@ -117,7 +117,6 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
                     //save
                     note.angle = angleInDegree;
                 }
-                curLocationChanged = false;
             }
 
             //update everytime
@@ -127,16 +126,19 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
             //get x position
             double rotDiff = Math.abs(rotation - oldRotation);
             if (rotDiff > 1) {//has rotation changed enough to update x
-                if (rotation >= 0) {
+                //TODO: refine position algorithm
+                if (rotation > 0) {
                     note.x = ((Double) (((-(note.angle - Math.round(rotation)) * 20 + (viewWidth / 2)) + note.x) / 2)).intValue();
-                } else {
+                } else if (rotation < 0){
                     note.x = ((Double) ((((note.angle + Math.round(rotation)) * 20 + (viewWidth / 2)) + note.x) / 2)).intValue();
+                } else {//rotation is 0
+                    //TODO: Fix 0 use case
                 }
             }
-
-            note.draw = (note.distance <= MAX_VEIWING_DISTANCE && note.x > -500 && note.x < viewWidth);
+            note.draw = (note.distance <= MAX_VEIWING_DISTANCE &&note.x > -500 && note.x < viewWidth);
         }
         oldRotation = rotation;
+        curLocationChanged = false;
     }
 
     /**
@@ -145,7 +147,7 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
      * @param two
      * @return
      */
-    public double distanceBetweenTags(Note one, Note two) {
+    public double distanceBetweenNotes(Note one, Note two) {
         double lon1 = one.lng;
         double lat1 = one.lat;
         double lon2 = two.lng;
