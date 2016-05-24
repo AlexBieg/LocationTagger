@@ -15,6 +15,9 @@ public class Note {
     public long dateTime;
     public LatLng location;
 
+    public double lat;
+    public double lng;
+
     public Note() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
@@ -31,6 +34,9 @@ public class Note {
         this.description = description;
         this.dateTime = dateTime;
         this.location = location;
+        this.lat = location.latitude;
+        this.lng = location.longitude;
+
     }
 
     @Exclude
@@ -49,6 +55,25 @@ public class Note {
 
     public String getTitle(){
         return title;
+    }
+    public String getUid() {
+        return uid;
+    }
+    public String getAuthor() {
+        return author;
+    }
+    public String getDescription(){
+        return description;
+    }
+    public long getDateTime(){
+        return dateTime;
+    }
+    public double getLat(){
+        return lat;
+    }
+
+    public double getLng(){
+        return lng;
     }
 
 }
