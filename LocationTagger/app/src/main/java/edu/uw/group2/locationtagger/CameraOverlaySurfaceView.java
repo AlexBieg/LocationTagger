@@ -37,11 +37,8 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
 
     private Paint whitePaint; //drawing variables (pre-defined for speed)
 
-
-    private Tag testTag = new Tag(47.659465,  -122.319791, "Test Point"); //Just a test point
-    private Tag testTagTwo = new Tag(47.660179,  -122.319777, "Test Point 2"); //Just a test point
-    public ArrayList<Tag> allTags;
-    public Tag currentLocation;
+    public ArrayList<Note> notes;
+    public Note currentLocation;
     public boolean curLocationChanged;
 
     public double rotation;
@@ -79,9 +76,7 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
 
         oldRotation = 200;
 
-        allTags = new ArrayList<>();
-        allTags.add(testTag);
-        allTags.add(testTagTwo);
+        notes = new ArrayList<>();
     }
 
 
@@ -89,7 +84,7 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
 
     }
 
-    public void changeCurrentLocation(Tag newCurrent) {
+    public void changeCurrentLocation(Note newCurrent) {
         currentLocation = newCurrent;
         curLocationChanged = true;
     }
@@ -98,18 +93,18 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
      * Update where the text should appear on the screen
      */
     public void update(){
-        for (Tag tag : (ArrayList<Tag>) allTags.clone()) {
+        for (Note note : (ArrayList<Note>) notes.clone()) {
             if (currentLocation != null && curLocationChanged) {
                 //get distance
-                double currToTag = distanceBetweenTags(currentLocation, tag);
-                tag.distance = currToTag;
+                double currToTag = distanceBetweenTags(currentLocation, note);
+                note.distance = currToTag;
 
                 //only calculate if we are drawing it
-                if (tag.distance <= MAX_VEIWING_DISTANCE) {
+                if (note.distance <= MAX_VEIWING_DISTANCE) {
                     //create triangle to get distances and angles
-                    Tag helperTag = new Tag(currentLocation.lat + 1, currentLocation.lng, "");
+                    Note helperTag = new Note(currentLocation.lat + 1, currentLocation.lng);
                     double northLine = distanceBetweenTags(currentLocation, helperTag);
-                    double helpToTag = distanceBetweenTags(helperTag, tag);
+                    double helpToTag = distanceBetweenTags(helperTag, note);
 
                     //find angle
                     double angleInDegree = radToDeg(Math.acos((northLine * northLine + currToTag * currToTag - helpToTag * helpToTag) / (2 * northLine * currToTag)));
@@ -120,26 +115,26 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
                     }
 
                     //save
-                    tag.angle = angleInDegree;
+                    note.angle = angleInDegree;
                 }
                 curLocationChanged = false;
             }
 
             //update everytime
             //get y position
-            tag.y = viewHeight / 2;
+            note.y = viewHeight / 2;
 
             //get x position
             double rotDiff = Math.abs(rotation - oldRotation);
             if (rotDiff > 1) {//has rotation changed enough to update x
                 if (rotation >= 0) {
-                    tag.x = ((Double) (((-(tag.angle - Math.round(rotation)) * 20 + (viewWidth / 2)) + tag.x) / 2)).intValue();
+                    note.x = ((Double) (((-(note.angle - Math.round(rotation)) * 20 + (viewWidth / 2)) + note.x) / 2)).intValue();
                 } else {
-                    tag.x = ((Double) ((((tag.angle + Math.round(rotation)) * 20 + (viewWidth / 2)) + tag.x) / 2)).intValue();
+                    note.x = ((Double) ((((note.angle + Math.round(rotation)) * 20 + (viewWidth / 2)) + note.x) / 2)).intValue();
                 }
             }
 
-            tag.draw = (tag.distance <= MAX_VEIWING_DISTANCE && tag.x > -500 && tag.x < viewWidth);
+            note.draw = (note.distance <= MAX_VEIWING_DISTANCE && note.x > -500 && note.x < viewWidth);
         }
         oldRotation = rotation;
     }
@@ -150,7 +145,7 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
      * @param two
      * @return
      */
-    public double distanceBetweenTags(Tag one, Tag two) {
+    public double distanceBetweenTags(Note one, Note two) {
         double lon1 = one.lng;
         double lat1 = one.lat;
         double lon2 = two.lng;
@@ -181,11 +176,10 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
         if (canvas == null) return; //if we didn't get a valid canvas for whatever reason
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         canvas.drawText("Rotation: " + rotation, 0, 80, whitePaint);
-        canvas.drawText("Test Tag Angle: " + testTag.angle, 0, 160, whitePaint);
 
-        for (Tag tag : (ArrayList<Tag>)allTags.clone()) {
-            if (tag.draw) {
-                canvas.drawText(tag.text, tag.x, tag.y, whitePaint);
+        for (Note note : (ArrayList<Note>)notes.clone()) {
+            if (note.draw) {
+                canvas.drawText(note.title, note.x, note.y, whitePaint);
             }
         }
     }
