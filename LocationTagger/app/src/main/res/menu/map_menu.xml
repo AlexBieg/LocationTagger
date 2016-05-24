@@ -7,4 +7,7 @@
     <item
         android:title="Augemented Reality"
         android:id="@+id/menuAR"/>
+    <item
+        android:title="Settings"
+        android:id="@+id/settings"/>
 </menu>

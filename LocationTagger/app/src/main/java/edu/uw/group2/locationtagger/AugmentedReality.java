@@ -1,43 +1,38 @@
 package edu.uw.group2.locationtagger;
 
-import android.*;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.GradientDrawable;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.hardware.camera2.CameraManager;
 import android.location.Location;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.phenotype.Configuration;
-import com.google.android.gms.vision.text.Text;
 
-import java.io.IOException;
+import java.util.ArrayList;
 
-public class AugmentedReality extends AppCompatActivity implements SensorEventListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class AugmentedReality extends AppCompatActivity implements SensorEventListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener{
 
     private static final String TAG = "AR";
 
@@ -55,10 +50,17 @@ public class AugmentedReality extends AppCompatActivity implements SensorEventLi
     private GoogleApiClient googleApi;
     private CameraOverlaySurfaceView overlay;
 
+    private Firebase firebaseRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_augmented_reality);
+
+        //firebase setup
+        Firebase.setAndroidContext(this);
+        firebaseRef = new Firebase("https://location-tagger.firebaseio.com/notes/posts");
+        firebaseRef.addValueEventListener(this);
 
         mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -208,7 +210,7 @@ public class AugmentedReality extends AppCompatActivity implements SensorEventLi
     @Override
     public void onLocationChanged(Location location) {
         Log.v(TAG, "Location changed");
-        overlay.changeCurrentLocation(new Tag(location.getLatitude(), location.getLongitude(), "Current Location"));
+        overlay.changeCurrentLocation(new Note(location.getLatitude(), location.getLongitude()));
     }
 
     @Override
@@ -233,6 +235,22 @@ public class AugmentedReality extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        ArrayList<Note> notes = new ArrayList<>();
+        for (DataSnapshot child : dataSnapshot.getChildren()) {
+            Log.v(TAG, child.toString());
+            Note note = child.getValue(Note.class);
+            notes.add(note);
+        }
+        overlay.notes = notes;
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
 
     }
 }
