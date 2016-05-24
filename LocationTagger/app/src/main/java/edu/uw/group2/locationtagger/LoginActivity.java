@@ -160,10 +160,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.loginBtn:
-                //logIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                logIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
                 //for now
-                Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.signupBtn:
                 //not working...
