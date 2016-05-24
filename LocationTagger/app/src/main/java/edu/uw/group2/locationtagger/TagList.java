@@ -1,8 +1,11 @@
 package edu.uw.group2.locationtagger;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -88,12 +91,19 @@ public class TagList extends AppCompatActivity {
             }
         });
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Note current = (Note)parent.getItemAtPosition(position);
+                Intent intent = new Intent(TagList.this, TagPage.class);
+                intent.putExtra("title", current.getTitle());
+                intent.putExtra("description", current.getDescription());
+
+                startActivity(intent);
+                //System.out.println(current.getTitle());
+
+            }
+        });
 
     }
 

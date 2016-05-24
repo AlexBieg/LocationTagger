@@ -7,8 +7,8 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -32,24 +32,23 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MapsActivity"></activity>
-        <activity android:name=".AddAPoint"></activity>
-
+        <activity android:name=".MapsActivity" />
+        <activity android:name=".AddAPoint" />
         <activity android:name=".TagList"></activity>
         <activity android:name=".LoginActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
-
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".AugmentedReality"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
+        <activity android:name=".TagPage"></activity>
     </application>
 
 </manifest>
