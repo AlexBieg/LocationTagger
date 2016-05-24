@@ -46,6 +46,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener {
 
@@ -57,10 +59,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Firebase firebaseRef;
 
+    private ArrayList<Note> notes;
+
+    private boolean firstLocationUpdate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        firstLocationUpdate = true;
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -77,8 +85,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         Firebase.setAndroidContext(this);
-        firebaseRef = new Firebase("https://location-tagger.firebaseio.com/");
+        firebaseRef = new Firebase("https://location-tagger.firebaseio.com/notes/posts");
         firebaseRef.addValueEventListener(this);
+
+        notes = new ArrayList<>();
 
     }
 
@@ -140,9 +150,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApi, locationRequest, this);
         } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+    }
+
+    public void updateMap(){
+        Log.v(TAG, "Updating Map");
+        for (Note note : notes) {
+            LatLng noteLocation = new LatLng(note.lat, note.lng);
+            mMap.addMarker(new MarkerOptions().position(noteLocation).title(note.title));
         }
     }
 
@@ -153,8 +172,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
-        LatLng curr = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curr, 15));
+        if (firstLocationUpdate) {
+            LatLng curr = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curr, 15));
+            firstLocationUpdate = false;
+        }
     }
 
     @Override
@@ -165,6 +187,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         Log.v(TAG, "Firebased loaded up!!!!!!");
+        for (DataSnapshot child : dataSnapshot.getChildren()) {
+            Log.v(TAG, child.toString());
+            Note note = child.getValue(Note.class);
+            notes.add(note);
+        }
+        updateMap();
     }
 
     @Override

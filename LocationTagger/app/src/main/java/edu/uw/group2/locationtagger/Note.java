@@ -14,6 +14,13 @@ public class Note {
     public String description;
     public long dateTime;
     public LatLng location;
+    public double lat;
+    public double lng;
+    public int x;
+    public int y;
+    public boolean draw;
+    public double distance;
+    public double angle;
 
     public Note() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
@@ -21,7 +28,10 @@ public class Note {
 
     public Note(String title, String description, long dateTime, LatLng location) {
         this("0", "anonymous", title, description, dateTime, location);
+    }
 
+    public Note(double lat, double lng) {
+        this("0", "anonymous", "", "", 0, new LatLng(lat, lng));
     }
 
     public Note(String uid, String author, String title, String description, long dateTime, LatLng location) {
@@ -31,6 +41,13 @@ public class Note {
         this.description = description;
         this.dateTime = dateTime;
         this.location = location;
+        this.x = 0;
+        this.y = 0;
+        this.draw = false;
+        this.distance = 0;
+        this.angle = 0;
+        this.lat = location.latitude;
+        this.lng = location.longitude;
     }
 
     @Exclude
