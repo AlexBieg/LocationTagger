@@ -8,5 +8,4 @@
     tools:context="edu.uw.group2.locationtagger.MapsActivity"
     tools:layout="@layout/abc_action_bar_title_item"
     map:mapType="hybrid"
-    map:uiZoomControls="true"
     />
