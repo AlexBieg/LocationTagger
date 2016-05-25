@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -77,6 +79,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         firebaseRef.addValueEventListener(this);
 
         notes = new ArrayList<>();
+
+        Button arButton = (Button) findViewById(R.id.btnAR);
+        arButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapsActivity.this, AugmentedReality.class));
+            }
+        });
+
+        Button mapButton = (Button) findViewById(R.id.btnMap);
+        mapButton.setEnabled(false);
+
+        Button listButton = (Button) findViewById(R.id.btnList);
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MapsActivity.this, TagList.class));
+            }
+        });
 
     }
 
