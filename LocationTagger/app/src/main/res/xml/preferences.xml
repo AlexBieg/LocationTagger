@@ -8,4 +8,7 @@
         android:defaultValue="false"
         />
 
+    <Preference android:title="Sign Out"
+        android:key="SignOut"></Preference>
+
 </PreferenceScreen>
