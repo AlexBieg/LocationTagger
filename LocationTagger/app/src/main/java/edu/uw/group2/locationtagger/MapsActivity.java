@@ -20,6 +20,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.identity.intents.AddressConstants;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -45,6 +46,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Firebase firebaseRef;
 
     private ArrayList<Note> notes;
+
+    private Location currentLocation;
 
     private boolean firstLocationUpdate;
 
@@ -98,6 +101,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             case R.id.menu_new_note:
                 Intent newNote = new Intent(this, AddAPoint.class);
+                Bundle extras = new Bundle();
+                double lat = currentLocation.getLatitude();
+                double lng = currentLocation.getLongitude();
+                extras.putDouble("Lat", lat);
+                extras.putDouble("Lng", lng);
+                newNote.putExtras(extras);
+
                 startActivity(newNote);
                 return true;
             case R.id.settings:
@@ -169,6 +179,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curr, 15));
             firstLocationUpdate = false;
         }
+        currentLocation = location;
     }
 
     public void setMapView(LatLng location) {

@@ -3,6 +3,9 @@ package edu.uw.group2.locationtagger;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -42,6 +45,9 @@ public class AddAPoint extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mDatabase;
+    private FirebaseUser user;
+
+    private Location noteLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +60,7 @@ public class AddAPoint extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -97,6 +103,15 @@ public class AddAPoint extends AppCompatActivity {
         newTitle.addTextChangedListener(watcher);
         newDesc.addTextChangedListener(watcher);
         newDateTime.addTextChangedListener(watcher);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+            Location loc = new Location(LocationManager.GPS_PROVIDER);
+            loc.setLatitude(extras.getDouble("Lat"));
+            loc.setLongitude(extras.getDouble("Lng"));
+            noteLocation = loc;
+        }
     }
 
     @Override
@@ -207,32 +222,33 @@ public class AddAPoint extends AppCompatActivity {
 //                        // ...
 //                    }
 //                });
-        mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
+//        mAuth.signInAnonymously()
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
+//
+//                        // If sign in fails, display a message to the user. If sign in succeeds
+//                        // the auth state listener will be notified and logic to handle the
+//                        // signed in user can be handled in the listener.
+//                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "signInAnonymously", task.getException());
+//                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        // ...
+//                    }
+//                });
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInAnonymously", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                        // ...
-                    }
-                });
         mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference ref = mDatabase.getReference("notes");
         String key = ref.child("posts").push().getKey();
         String title = ((EditText) findViewById(R.id.newPointTitle)).getText().toString();
         String description = ((EditText) findViewById(R.id.newDescription)).getText().toString();
         long dateTime = tempTime;
-        String userId = "0";
-        LatLng location = new LatLng(100.0, 100.0);
+        String userId = user.getUid();
+        LatLng location = new LatLng(noteLocation.getLatitude(), noteLocation.getLongitude());
         Note note = new Note(title, description, dateTime, location);
         Map<String, Object> postValues = note.toMap();
 
