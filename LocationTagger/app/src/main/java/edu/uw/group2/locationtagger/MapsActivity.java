@@ -70,7 +70,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         Firebase.setAndroidContext(this);
-        firebaseRef = new Firebase("https://location-tagger.firebaseio.com/notes/posts");
+        firebaseRef = new Firebase("https://fourth-splice-131619.firebaseio.com/notes/posts");
         firebaseRef.addValueEventListener(this);
 
         notes = new ArrayList<>();

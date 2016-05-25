@@ -49,7 +49,7 @@ public class AddAPoint extends AppCompatActivity {
         setContentView(R.layout.activity_add_apoint);
 
         Firebase.setAndroidContext(this);
-        mFirebaseRef = new Firebase("https://location-tagger.firebaseio.com/");
+        mFirebaseRef = new Firebase("https://fourth-splice-131619.firebaseio.com/");
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
