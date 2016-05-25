@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.signupBtn).setOnClickListener(this);
 
         Firebase.setAndroidContext(this);
-        mFirebaseRef = new Firebase("https://fourth-splice-131619.firebaseio.com/");
+        mFirebaseRef = new Firebase(ProjectConstants.FIREBASE);
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {

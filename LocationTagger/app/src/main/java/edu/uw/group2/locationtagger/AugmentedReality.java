@@ -59,7 +59,7 @@ public class AugmentedReality extends AppCompatActivity implements SensorEventLi
 
         //firebase setup
         Firebase.setAndroidContext(this);
-        firebaseRef = new Firebase("https://location-tagger.firebaseio.com/notes/posts");
+        firebaseRef = new Firebase(ProjectConstants.FIREBASE + "notes/posts");
         firebaseRef.addValueEventListener(this);
 
         mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);

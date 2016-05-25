@@ -19,7 +19,7 @@ public class TagList extends AppCompatActivity {
     private static final String TAG = "TAGLIST";
 
     private NoteListAdapter mNoteListAdapter;
-    private static final String FIREBASE_URL = "https://location-tagger.firebaseio.com/notes/posts";
+    private static final String FIREBASE_URL =  ProjectConstants.FIREBASE + "notes/posts";
     private Firebase mFirebaseRef;
     private ValueEventListener mConnectedListener;
 
