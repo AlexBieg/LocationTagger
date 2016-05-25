@@ -33,18 +33,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
-        android:lines="10"
+        android:lines="5"
         android:gravity="top|left"
         android:scrollbars="vertical"
         android:layout_below="@id/newDateText"
         android:hint="Description..."/>
+
+    <fragment
+        android:id="@+id/newMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        tools:context="edu.uw.group2.locationtagger.MapsActivity"
+        tools:layout="@layout/abc_action_bar_title_item"
+        android:layout_below="@id/newDescription"
+        />
 
     <Button
         android:id="@+id/newSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit"
-        android:layout_below="@id/newDescription"
+        android:layout_below="@id/newMap"
         android:enabled="false"
         android:onClick="submitNew"/>
 

@@ -177,6 +177,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
+
+        Location last = LocationServices.FusedLocationApi.getLastLocation(googleApi);
+        if (last != null) {
+            LatLng loc = new LatLng(last.getLatitude(), last.getLongitude());
+            setMapView(loc);
+        }
     }
 
     public void updateMap(){
