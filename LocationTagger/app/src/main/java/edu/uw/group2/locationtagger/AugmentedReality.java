@@ -1,6 +1,8 @@
 package edu.uw.group2.locationtagger;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
@@ -18,6 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.firebase.client.DataSnapshot;
@@ -32,7 +37,7 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 
-public class AugmentedReality extends AppCompatActivity implements SensorEventListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener{
+public class AugmentedReality extends Activity implements SensorEventListener, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener{
 
     private static final String TAG = "AR";
 
@@ -55,6 +60,9 @@ public class AugmentedReality extends AppCompatActivity implements SensorEventLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_augmented_reality);
 
         //firebase setup
@@ -90,6 +98,25 @@ public class AugmentedReality extends AppCompatActivity implements SensorEventLi
                     .build();
         }
         googleApi.connect();
+
+        Button arButton = (Button) findViewById(R.id.btnAR);
+        arButton.setEnabled(false);
+
+        Button mapButton = (Button) findViewById(R.id.btnMap);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AugmentedReality.this, MapsActivity.class));
+            }
+        });
+
+        Button listButton = (Button) findViewById(R.id.btnList);
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AugmentedReality.this, TagList.class));
+            }
+        });
     }
 
     public static Camera getCameraInstance(){
