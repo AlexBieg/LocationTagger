@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,11 +18,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -112,6 +121,23 @@ public class AddAPoint extends AppCompatActivity {
             loc.setLongitude(extras.getDouble("Lng"));
             noteLocation = loc;
         }
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.newMap);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(noteLocation.getLatitude(), noteLocation.getLongitude()))
+                        .zoom(17)
+                        .build();
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setScrollGesturesEnabled(false);
+                googleMap.getUiSettings().setZoomGesturesEnabled(false);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        });
     }
 
     @Override
