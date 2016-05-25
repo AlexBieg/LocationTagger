@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +31,25 @@ public class TagList extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
         mFirebaseRef = new Firebase(FIREBASE_URL);
+
+        Button arButton = (Button) findViewById(R.id.btnAR);
+        arButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TagList.this, AugmentedReality.class));
+            }
+        });
+
+        Button mapButton = (Button) findViewById(R.id.btnMap);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TagList.this, MapsActivity.class));
+            }
+        });
+
+        Button listButton = (Button) findViewById(R.id.btnList);
+        listButton.setEnabled(false);
 
 
 //        Firebase ref = new Firebase("https://location-tagger.firebaseio.com/notes/posts");
