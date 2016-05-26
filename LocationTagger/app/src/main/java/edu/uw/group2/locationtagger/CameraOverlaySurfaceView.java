@@ -129,6 +129,11 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
                     note.x = ((Double) ((((note.angle + Math.round(rotation)) * 20 + (viewWidth / 2)) + note.x) / 2)).intValue();
                 } else {//rotation is 0
                     //TODO: Fix 0 use case
+                    if (rotDiff < 50 && rotDiff > -50) { //went to 0 from small nubmers
+
+                    } else {
+
+                    }
                 }
             }
             note.draw = (note.distance <= MAX_VEIWING_DISTANCE &&note.x > -500 && note.x < viewWidth);
