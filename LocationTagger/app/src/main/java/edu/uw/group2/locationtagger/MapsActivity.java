@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -96,6 +97,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MapsActivity.this, TagList.class));
+            }
+        });
+
+        FloatingActionButton addTag = (FloatingActionButton) findViewById(R.id.fabAddTag);
+        addTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MapsActivity.this, AddAPoint.class);
+                intent.putExtra("Lat", currentLocation.getLatitude());
+                intent.putExtra("Lng", currentLocation.getLongitude());
+                startActivity(intent);
             }
         });
 

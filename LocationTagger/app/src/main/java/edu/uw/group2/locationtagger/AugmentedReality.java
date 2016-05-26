@@ -14,6 +14,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +53,7 @@ public class AugmentedReality extends Activity implements SensorEventListener, L
     private CameraSurfaceView camPreview;
 
     private LocationRequest locationRequest;
+    private Location currentLocation;
     private GoogleApiClient googleApi;
     private CameraOverlaySurfaceView overlay;
 
@@ -115,6 +117,17 @@ public class AugmentedReality extends Activity implements SensorEventListener, L
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AugmentedReality.this, TagList.class));
+            }
+        });
+
+        FloatingActionButton addTag = (FloatingActionButton) findViewById(R.id.fabAddTag);
+        addTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AugmentedReality.this, AddAPoint.class);
+                intent.putExtra("Lat", currentLocation.getLatitude());
+                intent.putExtra("Lng", currentLocation.getLongitude());
+                startActivity(intent);
             }
         });
     }
@@ -237,6 +250,7 @@ public class AugmentedReality extends Activity implements SensorEventListener, L
     @Override
     public void onLocationChanged(Location location) {
         Log.v(TAG, "Location changed");
+        currentLocation = location;
         overlay.changeCurrentLocation(new Note(location.getLatitude(), location.getLongitude()));
     }
 
