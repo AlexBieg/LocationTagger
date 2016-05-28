@@ -66,6 +66,38 @@ public class Note {
         return result;
     }
 
+    public static Note toNote(Map<String, Object> map) {
+        Note note = new Note(
+                (String) map.get("uid"),
+                (String) map.get("author"),
+                (String) map.get("title"),
+                (String) map.get("description"),
+                (long) map.get("dateTime"),
+                new LatLng((double) map.get("lat"), (double) map.get("lng")));
+
+        return note;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Note))
+            return false;
+        if (obj == this)
+            return true;
+        if (obj == null)
+            return false;
+
+        Note other = (Note) obj;
+
+        boolean uids = this.uid.equals(other.uid);
+        boolean authors = this.author.equals(other.author);
+        boolean titles = this.title.equals(other.title);
+        boolean descriptions = this.description.equals(other.description);
+        boolean dates = this.dateTime == other.dateTime;
+        boolean locations = this.location.equals(other.location);
+        return uids && authors && titles && descriptions && dates && locations;
+    }
+
     public String getTitle(){
         return title;
     }

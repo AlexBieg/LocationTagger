@@ -1,7 +1,6 @@
 package edu.uw.group2.locationtagger;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -65,9 +64,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        SharedPreferences userPref = getSharedPreferences("FirebaseUser", MODE_PRIVATE);
-        String userID = userPref.getString("UserID", null);
-        if (userID != null) {
+        FirebaseUser reAuthUser = mAuth.getCurrentUser();
+        if (reAuthUser != null) {
             Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
             startActivity(intent);
         }
@@ -97,10 +95,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Toast.makeText(LoginActivity.this, "Authentication failed",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            SharedPreferences userPref = getSharedPreferences("FirebaseUser", MODE_PRIVATE);
-                            SharedPreferences.Editor userPrefEditor = userPref.edit();
-                            userPrefEditor.putString("UserID", user.getUid())
-                                    .apply();
                             Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
                             startActivity(intent);
                         }
@@ -134,9 +128,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void logOut() {
         mAuth.signOut();
-        SharedPreferences.Editor editor = getSharedPreferences("FirebaseUser", MODE_PRIVATE).edit();
-        editor.remove("UserID");
-        editor.apply();
         updateUI(null);
     }
 

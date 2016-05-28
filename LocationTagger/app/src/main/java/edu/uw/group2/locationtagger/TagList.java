@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +16,10 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class TagList extends AppCompatActivity {
 
@@ -23,6 +28,7 @@ public class TagList extends AppCompatActivity {
     private NoteListAdapter mNoteListAdapter;
     private static final String FIREBASE_URL =  ProjectConstants.FIREBASE + "notes/posts";
     private Firebase mFirebaseRef;
+    private FirebaseDatabase mDatabase;
     private ValueEventListener mConnectedListener;
 
     @Override
@@ -34,6 +40,7 @@ public class TagList extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
         mFirebaseRef = new Firebase(FIREBASE_URL);
+        mDatabase = FirebaseDatabase.getInstance();
 
         Button arButton = (Button) findViewById(R.id.btnAR);
         arButton.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +101,36 @@ public class TagList extends AppCompatActivity {
             public void onChanged() {
                 super.onChanged();
                 listView.setSelection(mNoteListAdapter.getCount() - 1);
+            }
+        });
+
+        mFirebaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    Log.v("LIST", snapshot.getValue().toString());
+
+                    HashMap<String, Object> note = ((HashMap<String, Object>) snapshot.getValue());
+                    long dateTime = (long) note.get("dateTime");
+                    Calendar current = Calendar.getInstance();
+                    Calendar nextDay = Calendar.getInstance();
+                    nextDay.setTimeInMillis(dateTime);
+                    nextDay.add(Calendar.DATE, 1);
+                    long nextMillis = nextDay.getTimeInMillis();
+
+                    Log.v("LIST", (nextMillis - current.getTimeInMillis()) + "");
+                    if (nextMillis < current.getTimeInMillis()) {
+                        Firebase toRemove = snapshot.getRef();
+                        toRemove.removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
 

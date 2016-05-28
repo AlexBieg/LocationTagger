@@ -20,6 +20,8 @@ public class NoteListAdapter extends FirebaseListAdapter<Note> {
 
     @Override
     protected void populateView(View v, Note model) {
+        long dateTime = model.getDateTime();
+
         String title = model.getTitle();
         TextView titleText = (TextView)v.findViewById(R.id.txtEventTitle);
         titleText.setText(title);
@@ -29,7 +31,6 @@ public class NoteListAdapter extends FirebaseListAdapter<Note> {
        // String description = model.getDescription();
        // System.out.println(description);
 
-        long dateTime = model.getDateTime();
         SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy 'at' hh:mm aa", Locale.US);
         String date = format.format(dateTime);
 

@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -36,9 +37,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener, ChildEventListener {
 
     private static final String TAG = "Map Activity";
 
@@ -77,9 +79,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Firebase.setAndroidContext(this);
         firebaseRef = new Firebase(ProjectConstants.FIREBASE + "notes/posts");
-        firebaseRef.addValueEventListener(this);
+        firebaseRef.addListenerForSingleValueEvent(this);
+        firebaseRef.addChildEventListener(this);
 
-        notes = new ArrayList<>();
+        notes = new ArrayList<Note>();
 
         Button arButton = (Button) findViewById(R.id.btnAR);
         assert arButton != null;
@@ -119,6 +122,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        firebaseRef.addListenerForSingleValueEvent(this);
     }
 
     @Override
@@ -205,13 +214,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public void updateMap(){
-        Log.v(TAG, "Updating Map");
+    public void updateMap() {
+        mMap.clear();
         for (Note note : notes) {
             LatLng noteLocation = new LatLng(note.lat, note.lng);
             mMap.addMarker(new MarkerOptions().position(noteLocation).title(note.title));
         }
     }
+
+//    public void updateMap(DataSnapshot dataSnapshot){
+//        Log.v(TAG, dataSnapshot.toString());
+//
+//        ArrayList<Note> update = new ArrayList<Note>();
+//        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//            HashMap<String, Object> note = ((HashMap<String, Object>) snapshot.getValue());
+//            update.add(Note.toNote(note));
+//        }
+//        notes = update;
+//        updateMap();
+//    }
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -251,11 +272,45 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         Log.v(TAG, "Firebased loaded up!!!!!!");
-        for (DataSnapshot child : dataSnapshot.getChildren()) {
-            Log.v(TAG, child.toString());
-            Note note = child.getValue(Note.class);
-            notes.add(note);
+        ArrayList<Note> update = new ArrayList<Note>();
+        if (dataSnapshot != null) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                HashMap<String, Object> note = ((HashMap<String, Object>) snapshot.getValue());
+                update.add(Note.toNote(note));
+            }
         }
+        notes = update;
+        updateMap();
+    }
+
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        HashMap<String, Object> note = (HashMap<String, Object>) dataSnapshot.getValue();
+        notes.add(Note.toNote(note));
+        updateMap();
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        HashMap<String, Object> note = (HashMap<String, Object>) dataSnapshot.getValue();
+        notes.add(notes.remove(notes.indexOf(Note.toNote(note))));
+        updateMap();
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+        HashMap<String, Object> note = (HashMap<String, Object>) dataSnapshot.getValue();
+        int index = notes.indexOf(Note.toNote(note));
+        if (index >= 0) {
+            notes.remove(index);
+        }
+        updateMap();
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        HashMap<String, Object> note = (HashMap<String, Object>) dataSnapshot.getValue();
+        notes.add(notes.remove(notes.indexOf(Note.toNote(note))));
         updateMap();
     }
 

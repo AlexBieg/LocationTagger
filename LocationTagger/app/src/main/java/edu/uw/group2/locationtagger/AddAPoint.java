@@ -7,12 +7,10 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -62,21 +60,22 @@ public class AddAPoint extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Firebase.setAndroidContext(this);
-        mFirebaseRef = new Firebase(ProjectConstants.FIREBASE);
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
+        user = FirebaseAuth.getInstance().getCurrentUser();
+//        mFirebaseRef = new Firebase(ProjectConstants.FIREBASE);
+//        mAuth = FirebaseAuth.getInstance();
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//                    // User is signed in
+//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+//                } else {
+//                    // User is signed out
+//                    Log.d(TAG, "onAuthStateChanged:signed_out");
+//                }
+//            }
+//        };
 
         TextWatcher watcher = new TextWatcher() {
 
@@ -144,14 +143,14 @@ public class AddAPoint extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+//        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+//            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
@@ -199,9 +198,11 @@ public class AddAPoint extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR);
+            int minute = c.get(Calendar.MINUTE);
 
             // Create a new instance of DatePickerDialog and return it
-            TimePickerDialog picker = new TimePickerDialog(getActivity(), this, 0, 0, false);
+            TimePickerDialog picker = new TimePickerDialog(getActivity(), this, hour, minute, false);
             return picker;
         }
 
@@ -225,60 +226,6 @@ public class AddAPoint extends AppCompatActivity {
     }
 
     public void submitNew(View v) {
-//        mAuth.createUserWithEmailAndPassword("test@test.com", "password")
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-//
-//                        // If sign in fails, display a message to the user. If sign in succeeds
-//                        // the auth state listener will be notified and logic to handle the
-//                        // signed in user can be handled in the listener.
-//                        if (!task.isSuccessful()) {
-//                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        // ...
-//                    }
-//                });
-//        mAuth.signInWithEmailAndPassword("test@test.com", "password")
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-//
-//                        // If sign in fails, display a message to the user. If sign in succeeds
-//                        // the auth state listener will be notified and logic to handle the
-//                        // signed in user can be handled in the listener.
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "signInWithEmail", task.getException());
-//                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        // ...
-//                    }
-//                });
-//        mAuth.signInAnonymously()
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        Log.d(TAG, "signInAnonymously:onComplete:" + task.isSuccessful());
-//
-//                        // If sign in fails, display a message to the user. If sign in succeeds
-//                        // the auth state listener will be notified and logic to handle the
-//                        // signed in user can be handled in the listener.
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "signInAnonymously", task.getException());
-//                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        // ...
-//                    }
-//                });
-
         mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference ref = mDatabase.getReference("notes");
         String key = ref.child("posts").push().getKey();
@@ -287,7 +234,8 @@ public class AddAPoint extends AppCompatActivity {
         long dateTime = tempTime;
         String userId = user.getUid();
         LatLng location = new LatLng(noteLocation.getLatitude(), noteLocation.getLongitude());
-        Note note = new Note(title, description, dateTime, location);
+        String author = user.getEmail();
+        Note note = new Note(userId, author, title, description, dateTime, location);
         Map<String, Object> postValues = note.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
