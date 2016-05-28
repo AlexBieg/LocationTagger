@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -23,7 +24,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.identity.intents.AddressConstants;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -82,6 +82,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         notes = new ArrayList<>();
 
         Button arButton = (Button) findViewById(R.id.btnAR);
+        assert arButton != null;
         arButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,9 +91,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         Button mapButton = (Button) findViewById(R.id.btnMap);
+        assert mapButton != null;
         mapButton.setEnabled(false);
 
         Button listButton = (Button) findViewById(R.id.btnList);
+        assert listButton != null;
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,13 +104,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         FloatingActionButton addTag = (FloatingActionButton) findViewById(R.id.fabAddTag);
+        assert addTag != null;
         addTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MapsActivity.this, AddAPoint.class);
-                intent.putExtra("Lat", currentLocation.getLatitude());
-                intent.putExtra("Lng", currentLocation.getLongitude());
-                startActivity(intent);
+                if (currentLocation != null) {
+                    Intent intent = new Intent(MapsActivity.this, AddAPoint.class);
+                    intent.putExtra("Lat", currentLocation.getLatitude());
+                    intent.putExtra("Lng", currentLocation.getLongitude());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "No location found. Please acquire location first.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
