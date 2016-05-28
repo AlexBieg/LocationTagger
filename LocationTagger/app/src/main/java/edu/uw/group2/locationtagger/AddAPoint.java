@@ -38,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddAPoint extends AppCompatActivity {
@@ -212,7 +213,7 @@ public class AddAPoint extends AppCompatActivity {
             c.set(Calendar.HOUR, hour);
             c.set(Calendar.MINUTE, minute);
             ((AddAPoint) getActivity()).tempTime = c.getTimeInMillis();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy 'at' hh:mm aa");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy 'at' hh:mm aa", Locale.US);
             String dateString = dateFormat.format(c.getTimeInMillis());
             ((TextView) getActivity().findViewById(R.id.newDateText)).setText(dateString);
         }

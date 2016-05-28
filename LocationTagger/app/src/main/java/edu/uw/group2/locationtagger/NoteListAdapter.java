@@ -6,6 +6,9 @@ import android.widget.TextView;
 
 import com.firebase.client.Query;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by PIGGY on 16/5/23.
  */
@@ -26,7 +29,11 @@ public class NoteListAdapter extends FirebaseListAdapter<Note> {
        // String description = model.getDescription();
        // System.out.println(description);
 
-        ((TextView) v.findViewById(R.id.txtDate)).setText(model.getDescription());
+        long dateTime = model.getDateTime();
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy 'at' hh:mm aa", Locale.US);
+        String date = format.format(dateTime);
+
+        ((TextView) v.findViewById(R.id.txtDate)).setText(date);
 
     }
 }
