@@ -9,17 +9,76 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="edu.uw.group2.locationtagger.TagPage">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:id="@+id/title"/>
+        android:text="Event Title: "
+        android:textSize="18sp"
+        android:id="@+id/titleHeader"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:id="@+id/title"
+        android:layout_toRightOf="@id/titleHeader"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date and Time: "
+        android:textSize="18sp"
+        android:id="@+id/dateHeader"
+        android:layout_below="@id/titleHeader"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/title"
+        android:layout_toRightOf="@id/dateHeader"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description: "
+        android:textSize="18sp"
+        android:id="@+id/descriptionHeader"
+        android:layout_below="@id/dateHeader"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/description"
         android:textSize="18sp"
-        android:layout_below="@id/title"/>
+        android:textStyle="bold"
+        android:layout_below="@id/descriptionHeader"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description"
+        android:text="Location: "
+        android:textSize="18sp"
+        android:id="@+id/locationHeader"/>
+
+    <fragment
+        android:id="@+id/mapLocation"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:layout="@layout/abc_action_bar_title_item"
+        android:layout_below="@id/locationHeader"
+        />
 
 </RelativeLayout>
