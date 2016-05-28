@@ -1,9 +1,21 @@
 package edu.uw.group2.locationtagger;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class TagPage extends AppCompatActivity {
 
@@ -15,12 +27,45 @@ public class TagPage extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle args = getIntent().getExtras();
-        String title = args.getString("title");
+        final String title = args.getString("title");
         String description = args.getString("description");
+        double lat = Double.parseDouble(args.getString("lat"));
+        double lng = Double.parseDouble(args.getString("lng"));
+        long date = Long.valueOf(args.getString("date"));
+
+        //String lat = args.getString("lat");
+        //System.out.println(lat);
+       // System.out.println(lat);
+        //System.out.println(lng);
 
 
         ((TextView)findViewById(R.id.title)).setText(title);
         ((TextView)findViewById(R.id.description)).setText(description);
+
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy 'at' hh:mm aa", Locale.US);
+        String dateTime = format.format(date);
+
+        ((TextView)findViewById(R.id.date)).setText(dateTime);
+
+        final LatLng noteLocation = new LatLng(lat, lng);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapLocation);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(noteLocation)
+                        .zoom(17)
+                        .build();
+                UiSettings uiSettings = googleMap.getUiSettings();
+                uiSettings.setScrollGesturesEnabled(false);
+                uiSettings.setZoomGesturesEnabled(false);
+                googleMap.addMarker(new MarkerOptions()
+                        .position(noteLocation)
+                        .title(title));
+                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        });
 
 
     }

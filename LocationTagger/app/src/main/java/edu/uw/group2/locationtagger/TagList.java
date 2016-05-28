@@ -159,6 +159,9 @@ public class TagList extends AppCompatActivity {
                 Intent intent = new Intent(TagList.this, TagPage.class);
                 intent.putExtra("title", current.getTitle());
                 intent.putExtra("description", current.getDescription());
+                intent.putExtra("lat", current.getLat() + "");
+                intent.putExtra("lng", current.getLng() + "");
+                intent.putExtra("date", current.getDateTime() + "");
 
                 startActivity(intent);
                 //System.out.println(current.getTitle());

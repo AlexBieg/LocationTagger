@@ -36,5 +36,7 @@ public class NoteListAdapter extends FirebaseListAdapter<Note> {
 
         ((TextView) v.findViewById(R.id.txtDate)).setText(date);
 
+
+
     }
 }
