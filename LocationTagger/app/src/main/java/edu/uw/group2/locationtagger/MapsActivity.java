@@ -34,13 +34,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener, ChildEventListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ValueEventListener, ChildEventListener, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = "Map Activity";
 
@@ -55,6 +56,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location currentLocation;
 
     private boolean firstLocationUpdate;
+
+    private HashMap<Marker, Note> markerNotes = new HashMap<Marker, Note>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +191,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+        googleMap.setOnMarkerClickListener(this);
         googleApi.connect();
     }
 
@@ -216,9 +220,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void updateMap() {
         mMap.clear();
+        markerNotes.clear();
         for (Note note : notes) {
             LatLng noteLocation = new LatLng(note.lat, note.lng);
-            mMap.addMarker(new MarkerOptions().position(noteLocation).title(note.title));
+            markerNotes.put(mMap.addMarker(new MarkerOptions().position(noteLocation).title(note.title)), note);
         }
     }
 
@@ -286,6 +291,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         HashMap<String, Object> note = (HashMap<String, Object>) dataSnapshot.getValue();
+        Log.v(TAG, dataSnapshot.getValue().toString());
         notes.add(Note.toNote(note));
         updateMap();
     }
@@ -319,4 +325,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        //Log.v(TAG, markerNotes.get(marker).getDescription());
+        Note current = markerNotes.get(marker);
+        Intent intent = new Intent(MapsActivity.this, TagPage.class);
+        intent.putExtra("title", current.getTitle());
+        intent.putExtra("description", current.getDescription());
+        intent.putExtra("lat", current.getLat() + "");
+        intent.putExtra("lng", current.getLng() + "");
+        intent.putExtra("date", current.getDateTime() + "");
+
+        startActivity(intent);
+        //Log.v(TAG, marker.getId() + " " + marker.getTitle());
+        //Log.v(TAG, notes.get(0).author + " " + notes.get(0).getUid());
+        return false;
+    }
 }

@@ -14,7 +14,7 @@ public class SettingsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_settings);
 
         //action bar "back"
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //gets the settings fragment
         getFragmentManager().beginTransaction()
