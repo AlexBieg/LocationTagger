@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,6 +29,7 @@ public class TagList extends AppCompatActivity {
     private NoteListAdapter mNoteListAdapter;
     private static final String FIREBASE_URL =  ProjectConstants.FIREBASE + "notes/posts";
     private Firebase mFirebaseRef;
+    private Query queryRef;
     private FirebaseDatabase mDatabase;
     private ValueEventListener mConnectedListener;
 
@@ -40,6 +42,7 @@ public class TagList extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
         mFirebaseRef = new Firebase(FIREBASE_URL);
+        queryRef = mFirebaseRef.orderByChild("dateTime");
         mDatabase = FirebaseDatabase.getInstance();
 
         Button arButton = (Button) findViewById(R.id.btnAR);
@@ -80,7 +83,7 @@ public class TagList extends AppCompatActivity {
 
         final ListView listView = (ListView)findViewById(R.id.tagListView);
 
-        mNoteListAdapter = new NoteListAdapter(mFirebaseRef, this, R.layout.list_view);
+        mNoteListAdapter = new NoteListAdapter(queryRef, this, R.layout.list_view);
         listView.setAdapter(mNoteListAdapter);
         mNoteListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -90,7 +93,7 @@ public class TagList extends AppCompatActivity {
             }
         });
 
-        mFirebaseRef.addValueEventListener(new ValueEventListener() {
+        queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
