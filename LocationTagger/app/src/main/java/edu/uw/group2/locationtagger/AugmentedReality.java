@@ -79,13 +79,6 @@ public class AugmentedReality extends Activity implements SensorEventListener, L
             finish();
         }
 
-//        camera = getCameraInstance();
-//        camPreview = new CameraSurfaceView(this, camera);
-//
-//        // Create our Preview view and set it as the content of our activity.
-//        FrameLayout framePreview = (FrameLayout) findViewById(R.id.framCamPreview);
-//        framePreview.addView(camPreview);
-
         overlay = (CameraOverlaySurfaceView) findViewById(R.id.svOverlay);
         overlay.setZOrderOnTop(true);
         SurfaceHolder overlayHolder = overlay.getHolder();
@@ -150,6 +143,10 @@ public class AugmentedReality extends Activity implements SensorEventListener, L
 
         camera = getCameraInstance();
         camPreview = new CameraSurfaceView(this, camera);
+
+        Camera.Parameters para = camera.getParameters();
+        float horAngle = para.getHorizontalViewAngle();
+        overlay.horAngle = horAngle;
 
         // Create our Preview view and set it as the content of our activity.
         FrameLayout framePreview = (FrameLayout) findViewById(R.id.framCamPreview);
