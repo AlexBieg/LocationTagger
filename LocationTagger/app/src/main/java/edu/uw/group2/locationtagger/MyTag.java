@@ -16,29 +16,42 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class TagList extends AppCompatActivity {
+public class MyTag extends AppCompatActivity {
 
-    private static final String TAG = "TAGLIST";
+    private static final String TAG = "MYTAG";
 
     private NoteListAdapter mNoteListAdapter;
-    private static final String FIREBASE_URL =  ProjectConstants.FIREBASE + "notes/posts";
+    private String FIREBASE_URL =  ProjectConstants.FIREBASE + "notes/user-posts/";
+    private Firebase ref;
     private Firebase mFirebaseRef;
     private FirebaseDatabase mDatabase;
     private ValueEventListener mConnectedListener;
+    private FirebaseUser user;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tag_list);
+        setContentView(R.layout.activity_my_tag);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Firebase.setAndroidContext(this);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            FIREBASE_URL += user.getUid();
+        }
+
+
         mFirebaseRef = new Firebase(FIREBASE_URL);
         mDatabase = FirebaseDatabase.getInstance();
 
@@ -46,7 +59,7 @@ public class TagList extends AppCompatActivity {
         arButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TagList.this, AugmentedReality.class));
+                startActivity(new Intent(MyTag.this, AugmentedReality.class));
                 finish();
             }
         });
@@ -55,44 +68,19 @@ public class TagList extends AppCompatActivity {
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(MyTag.this,MapsActivity.class));
                 finish();
             }
         });
 
         Button listButton = (Button) findViewById(R.id.btnList);
-        listButton.setEnabled(false);
-
-
-//        Firebase ref = new Firebase("https://location-tagger.firebaseio.com/notes/posts");
-//        //Firebase ref = new Firebase("https://test-2107d.firebaseio.com/");
-//
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                System.out.println(dataSnapshot.getChildrenCount() + " posts");
-//                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-//                    Note post = postSnapshot.getValue(Note.class);
-//                    System.out.println(post.getTitle() + post.getAuthor() + post.getDescription() + post.getUid()+ post.getDateTime() + post.getLat() + post.getLng());
-//                }
-//
-//               // System.out.println(dataSnapshot.getValue());
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//                System.out.println("The read failed: " + firebaseError.getMessage());
-//            }
-//        });
-
-        Button btnTag = (Button) findViewById(R.id.btnMyTag);
-        btnTag.setOnClickListener(new View.OnClickListener() {
+        listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TagList.this, MyTag.class));
+                // startActivity(new Intent(MyTag.this, TagList.class));
+                finish();
             }
         });
-
-
 
     }
 
@@ -100,7 +88,7 @@ public class TagList extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        final ListView listView = (ListView)findViewById(R.id.tagListView);
+        final ListView listView = (ListView)findViewById(R.id.myTagListView);
 
         mNoteListAdapter = new NoteListAdapter(mFirebaseRef, this, R.layout.list_view);
         listView.setAdapter(mNoteListAdapter);
@@ -148,9 +136,9 @@ public class TagList extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    Toast.makeText(TagList.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyTag.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(TagList.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyTag.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -164,7 +152,7 @@ public class TagList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Note current = (Note)parent.getItemAtPosition(position);
-                Intent intent = new Intent(TagList.this, TagPage.class);
+                Intent intent = new Intent(MyTag.this, TagPage.class);
                 intent.putExtra("title", current.getTitle());
                 intent.putExtra("description", current.getDescription());
                 intent.putExtra("lat", current.getLat() + "");
@@ -172,7 +160,6 @@ public class TagList extends AppCompatActivity {
                 intent.putExtra("date", current.getDateTime() + "");
 
                 startActivity(intent);
-                //System.out.println(current.getTitle());
 
             }
         });

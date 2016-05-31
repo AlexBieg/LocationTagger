@@ -34,21 +34,20 @@
 
         <activity android:name=".MapsActivity" />
         <activity android:name=".AddAPoint" />
-        <activity android:name=".TagList"></activity>
+        <activity android:name=".TagList" />
         <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
         <activity
             android:name=".AugmentedReality"
             android:screenOrientation="landscape" />
-        <activity android:name=".TagPage"></activity>
+        <activity android:name=".TagPage" />
+        <activity android:name=".MyTag"></activity>
     </application>
 
 </manifest>
