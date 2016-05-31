@@ -62,28 +62,6 @@ public class TagList extends AppCompatActivity {
         Button listButton = (Button) findViewById(R.id.btnList);
         listButton.setEnabled(false);
 
-
-//        Firebase ref = new Firebase("https://location-tagger.firebaseio.com/notes/posts");
-//        //Firebase ref = new Firebase("https://test-2107d.firebaseio.com/");
-//
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                System.out.println(dataSnapshot.getChildrenCount() + " posts");
-//                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-//                    Note post = postSnapshot.getValue(Note.class);
-//                    System.out.println(post.getTitle() + post.getAuthor() + post.getDescription() + post.getUid()+ post.getDateTime() + post.getLat() + post.getLng());
-//                }
-//
-//               // System.out.println(dataSnapshot.getValue());
-//            }
-//
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//                System.out.println("The read failed: " + firebaseError.getMessage());
-//            }
-//        });
-
         Button btnTag = (Button) findViewById(R.id.btnMyTag);
         btnTag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +150,6 @@ public class TagList extends AppCompatActivity {
                 intent.putExtra("date", current.getDateTime() + "");
 
                 startActivity(intent);
-                //System.out.println(current.getTitle());
 
             }
         });
@@ -196,6 +173,4 @@ public class TagList extends AppCompatActivity {
         mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
         mNoteListAdapter.cleanup();
     }
-
-
 }

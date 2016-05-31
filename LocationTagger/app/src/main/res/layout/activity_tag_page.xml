@@ -7,70 +7,55 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorBackground"
     tools:context="edu.uw.group2.locationtagger.TagPage">
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Event Title: "
-        android:textSize="18sp"
-        android:id="@+id/titleHeader"/>
+        android:id="@+id/titleHeader"
+        style="@style/TextStyle"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:id="@+id/title"
-        android:layout_toRightOf="@id/titleHeader"/>
+        android:layout_toRightOf="@id/titleHeader"
+        style="@style/TextStyle.Detail"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Date and Time: "
-        android:textSize="18sp"
         android:id="@+id/dateHeader"
         android:layout_below="@id/titleHeader"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        style="@style/TextStyle"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/date"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_below="@id/title"
         android:layout_toRightOf="@id/dateHeader"
         android:layout_marginTop="10dp"
+        style="@style/TextStyle.Detail"
         />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Description: "
-        android:textSize="18sp"
         android:id="@+id/descriptionHeader"
-        android:layout_below="@id/dateHeader"/>
+        android:layout_below="@id/dateHeader"
+        style="@style/TextStyle"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/description"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:layout_below="@id/descriptionHeader"
         android:layout_marginBottom="10dp"
+        style="@style/TextStyle.Detail"
         />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@id/description"
         android:text="Location: "
-        android:textSize="18sp"
-        android:id="@+id/locationHeader"/>
+        android:id="@+id/locationHeader"
+        style="@style/TextStyle"
+        />
 
     <fragment
         android:id="@+id/mapLocation"

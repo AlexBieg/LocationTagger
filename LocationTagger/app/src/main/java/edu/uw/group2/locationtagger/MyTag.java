@@ -183,6 +183,4 @@ public class MyTag extends AppCompatActivity {
         mFirebaseRef.getRoot().child(".info/connected").removeEventListener(mConnectedListener);
         mNoteListAdapter.cleanup();
     }
-
-
 }

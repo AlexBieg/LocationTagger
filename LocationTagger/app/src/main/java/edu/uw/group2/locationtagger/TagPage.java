@@ -33,12 +33,6 @@ public class TagPage extends AppCompatActivity {
         double lng = Double.parseDouble(args.getString("lng"));
         long date = Long.valueOf(args.getString("date"));
 
-        //String lat = args.getString("lat");
-        //System.out.println(lat);
-       // System.out.println(lat);
-        //System.out.println(lng);
-
-
         ((TextView)findViewById(R.id.title)).setText(title);
         ((TextView)findViewById(R.id.description)).setText(description);
 
@@ -66,8 +60,6 @@ public class TagPage extends AppCompatActivity {
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
-
-
     }
 
     @Override

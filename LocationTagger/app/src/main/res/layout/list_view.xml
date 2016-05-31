@@ -5,19 +5,12 @@
 
     <TextView
         android:id="@+id/txtEventTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:paddingTop="10dp"
-
+        style="@style/TextStyle.EventTitle"
         />
 
     <TextView
         android:id="@+id/txtDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:paddingBottom="10dp"
+        style="@style/TextStyle.EventDate"
         />
 
 </LinearLayout>
