@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,13 +14,11 @@ import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Calendar;
-import java.util.HashMap;
 
 public class MyTag extends AppCompatActivity {
 
@@ -29,13 +26,11 @@ public class MyTag extends AppCompatActivity {
 
     private NoteListAdapter mNoteListAdapter;
     private String FIREBASE_URL =  ProjectConstants.FIREBASE + "notes/user-posts/";
-    private Firebase ref;
     private Firebase mFirebaseRef;
     private FirebaseDatabase mDatabase;
     private ValueEventListener mConnectedListener;
     private FirebaseUser user;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    private Query queryRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +44,13 @@ public class MyTag extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             FIREBASE_URL += user.getUid();
+        }else{
+            FIREBASE_URL += "UsgczZKCzggcKFUxciiQUj560V72";
         }
 
 
         mFirebaseRef = new Firebase(FIREBASE_URL);
+        queryRef = mFirebaseRef.orderByChild("dateTime");
         mDatabase = FirebaseDatabase.getInstance();
 
         Button arButton = (Button) findViewById(R.id.btnAR);
@@ -90,7 +88,7 @@ public class MyTag extends AppCompatActivity {
 
         final ListView listView = (ListView)findViewById(R.id.myTagListView);
 
-        mNoteListAdapter = new NoteListAdapter(mFirebaseRef, this, R.layout.list_view);
+        mNoteListAdapter = new NoteListAdapter(queryRef, this, R.layout.list_view);
         listView.setAdapter(mNoteListAdapter);
         mNoteListAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -100,35 +98,6 @@ public class MyTag extends AppCompatActivity {
             }
         });
 
-        mFirebaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    Log.v("LIST", snapshot.getValue().toString());
-
-                    HashMap<String, Object> note = ((HashMap<String, Object>) snapshot.getValue());
-                    long dateTime = (long) note.get("dateTime");
-                    Calendar current = Calendar.getInstance();
-                    Calendar nextDay = Calendar.getInstance();
-                    nextDay.setTimeInMillis(dateTime);
-                    nextDay.add(Calendar.DATE, 1);
-                    long nextMillis = nextDay.getTimeInMillis();
-
-                    Log.v("LIST", (nextMillis - current.getTimeInMillis()) + "");
-                    if (nextMillis < current.getTimeInMillis()) {
-                        Firebase toRemove = snapshot.getRef();
-                        toRemove.removeValue();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
 
         // Finally, a little indication of connection status
         mConnectedListener = mFirebaseRef.getRoot().child(".info/connected").addValueEventListener(new ValueEventListener() {
