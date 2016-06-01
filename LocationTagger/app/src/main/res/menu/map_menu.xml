@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_new_note"
-        android:title="Add new point"
-        />
-    <item
-        android:title="Augemented Reality"
-        android:id="@+id/menuAR"/>
-    <item
-        android:title="Event Tag List"
-        android:id="@+id/tagList"/>
-    <item
         android:title="Settings"
         android:id="@+id/settings"/>
 </menu>
