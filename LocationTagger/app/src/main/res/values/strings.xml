@@ -6,10 +6,10 @@
     <string name="event_tag_list_title">Event Tag List</string>
     <string name="my_tag_button">MY TAG</string>
 
-    <string name="tag_page_title">Event Title: </string>
-    <string name="tag_page_datetime">Date and Time: </string>
-    <string name="tag_page_description">Description: </string>
-    <string name="tag_page_location">Location: </string>
+    <string name="tag_page_title">Event Title:  \u0020</string>
+    <string name="tag_page_datetime">Date and Time: \u0020</string>
+    <string name="tag_page_description">Description:</string>
+    <string name="tag_page_location">Location:</string>
     <string name="tag_page_share">Share Event</string>
 
     <string name="tab_ar">AR</string>
