@@ -150,26 +150,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menuAR:
-                startActivity(new Intent(this, AugmentedReality.class));
-                return true;
-            case R.id.menu_new_note:
-                Intent newNote = new Intent(this, AddAPoint.class);
-                Bundle extras = new Bundle();
-                double lat = currentLocation.getLatitude();
-                double lng = currentLocation.getLongitude();
-                extras.putDouble("Lat", lat);
-                extras.putDouble("Lng", lng);
-                newNote.putExtras(extras);
-
-                startActivity(newNote);
-                return true;
+//            case R.id.menuAR:
+//                startActivity(new Intent(this, AugmentedReality.class));
+//                return true;
+//            case R.id.menu_new_note:
+//                Intent newNote = new Intent(this, AddAPoint.class);
+//                Bundle extras = new Bundle();
+//                double lat = currentLocation.getLatitude();
+//                double lng = currentLocation.getLongitude();
+//                extras.putDouble("Lat", lat);
+//                extras.putDouble("Lng", lng);
+//                newNote.putExtras(extras);
+//
+//                startActivity(newNote);
+//                return true;
             case R.id.settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
-            case R.id.tagList:
-                startActivity(new Intent(this, TagList.class));
-                return true;
+//            case R.id.tagList:
+//                startActivity(new Intent(this, TagList.class));
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -192,6 +192,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         googleMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Note current = markerNotes.get(marker);
+                Intent intent = new Intent(MapsActivity.this, TagPage.class);
+                intent.putExtra("title", current.getTitle());
+                intent.putExtra("description", current.getDescription());
+                intent.putExtra("lat", current.getLat() + "");
+                intent.putExtra("lng", current.getLng() + "");
+                intent.putExtra("date", current.getDateTime() + "");
+
+                startActivity(intent);
+            }
+        });
         googleApi.connect();
     }
 
@@ -328,15 +342,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onMarkerClick(Marker marker) {
         //Log.v(TAG, markerNotes.get(marker).getDescription());
-        Note current = markerNotes.get(marker);
-        Intent intent = new Intent(MapsActivity.this, TagPage.class);
-        intent.putExtra("title", current.getTitle());
-        intent.putExtra("description", current.getDescription());
-        intent.putExtra("lat", current.getLat() + "");
-        intent.putExtra("lng", current.getLng() + "");
-        intent.putExtra("date", current.getDateTime() + "");
-
-        startActivity(intent);
+//        Note current = markerNotes.get(marker);
+//        Intent intent = new Intent(MapsActivity.this, TagPage.class);
+//        intent.putExtra("title", current.getTitle());
+//        intent.putExtra("description", current.getDescription());
+//        intent.putExtra("lat", current.getLat() + "");
+//        intent.putExtra("lng", current.getLng() + "");
+//        intent.putExtra("date", current.getDateTime() + "");
+//
+//        startActivity(intent);
         //Log.v(TAG, marker.getId() + " " + marker.getTitle());
         //Log.v(TAG, notes.get(0).author + " " + notes.get(0).getUid());
         return false;
