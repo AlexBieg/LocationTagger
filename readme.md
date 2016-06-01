@@ -30,7 +30,7 @@ The tabs at the bottom allow the user to switch between the main screens.
 
 2. #### Augmented Reality
 The augmented reality screens overlays near by tags onto a camera preview. Any tags within a half mile
-will be shown when the user is lookin in their direction. Tags that are farther away appear smaller.
+will be shown when the user is looking in their direction. Tags that are farther away appear smaller.
 The tabs at the bottom function the same as the maps and the floating plus button adds a new tag.
 
 3. #### List
@@ -51,3 +51,6 @@ be removed from the service.
 3. #### Individual Tag Screen
 This screen contains the same information as the Create New Tag screen, but in a format better suited for
 reading. It also includes a share button so that users can easily let others know about events. 
+
+4. #### User's Tag List Screen
+This screen contains a list of tags that the current user created, so that user is able to see the history of their own tags.
