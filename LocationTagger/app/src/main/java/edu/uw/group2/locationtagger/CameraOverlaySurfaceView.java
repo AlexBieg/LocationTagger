@@ -185,7 +185,7 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
     public void render(Canvas canvas) {
         if (canvas == null) return; //if we didn't get a valid canvas for whatever reason
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        canvas.drawText("Rotation: " + rotation, 0, 80, whitePaint);
+        //canvas.drawText("Rotation: " + rotation, 0, 80, whitePaint);
 
         for (Note note : (ArrayList<Note>)notes.clone()) {
             if (note.draw) {
