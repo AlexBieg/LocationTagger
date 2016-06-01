@@ -21,6 +21,7 @@ The user stories for the Location Tagger are:
 
 ### Main Flow of Events
 There are 3 main screens to the application.
+
 1. #### Map
 The map screen shows the users current location as well as all of the tags around them. Tapping on
 a point will show it's title. Tapping on the tile will bring the user to a tag detail screen.
