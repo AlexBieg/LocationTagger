@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -52,34 +50,6 @@ public class MyTag extends AppCompatActivity {
         mFirebaseRef = new Firebase(FIREBASE_URL);
         queryRef = mFirebaseRef.orderByChild("dateTime");
         mDatabase = FirebaseDatabase.getInstance();
-
-        Button arButton = (Button) findViewById(R.id.btnAR);
-        arButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MyTag.this, AugmentedReality.class));
-                finish();
-            }
-        });
-
-        Button mapButton = (Button) findViewById(R.id.btnMap);
-        mapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MyTag.this,MapsActivity.class));
-                finish();
-            }
-        });
-
-        Button listButton = (Button) findViewById(R.id.btnList);
-        listButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // startActivity(new Intent(MyTag.this, TagList.class));
-                finish();
-            }
-        });
-
     }
 
     @Override
@@ -105,9 +75,9 @@ public class MyTag extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    Toast.makeText(MyTag.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MyTag.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MyTag.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MyTag.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
                 }
             }
 

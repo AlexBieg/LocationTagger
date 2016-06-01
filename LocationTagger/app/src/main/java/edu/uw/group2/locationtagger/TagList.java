@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -129,9 +128,9 @@ public class TagList extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean connected = (Boolean) dataSnapshot.getValue();
                 if (connected) {
-                    Toast.makeText(TagList.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(TagList.this, "Connected to Firebase", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(TagList.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(TagList.this, "Disconnected from Firebase", Toast.LENGTH_SHORT).show();
                 }
             }
 
