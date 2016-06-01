@@ -2,4 +2,29 @@
     <string name="app_name">Location Tagger</string>
     <string name="title_activity_maps">Map</string>
     <string name="default_datepicker_text">Pick Date and Time</string>
+
+    <string name="event_tag_list_title">Event Tag List</string>
+    <string name="my_tag_button">MY TAG</string>
+
+    <string name="tag_page_title">Event Title: </string>
+    <string name="tag_page_datetime">Date and Time: </string>
+    <string name="tag_page_description">Description: </string>
+    <string name="tag_page_location">Location: </string>
+    <string name="tag_page_share">Share Event</string>
+
+    <string name="tab_ar">AR</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_list">List</string>
+
+    <string name="my_tag_list">My Tag List</string>
+
+    <string name="log_in_email">Email</string>
+    <string name="log_in_password">Password</string>
+    <string name="log_in_sign_up">Sign Up</string>
+    <string name="log_in">Login</string>
+    <string name="sign_out">Sign Out</string>
+
+    <string name="add_point_title">Title...</string>
+    <string name="add_point_description">Description...</string>
+    <string name="add_point_submit">Submit</string>
 </resources>

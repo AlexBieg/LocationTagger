@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:hint="Title..."/>
+        android:hint="@string/add_point_title"/>
 
     <Button
         android:id="@+id/newDateText"
@@ -37,7 +37,7 @@
         android:gravity="top|left"
         android:scrollbars="vertical"
         android:layout_below="@id/newDateText"
-        android:hint="Description..."/>
+        android:hint="@string/add_point_description"/>
 
     <fragment
         android:id="@+id/newMap"
@@ -53,7 +53,7 @@
         android:id="@+id/newSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/add_point_submit"
         android:layout_below="@id/newMap"
         android:enabled="false"
         android:onClick="submitNew"/>

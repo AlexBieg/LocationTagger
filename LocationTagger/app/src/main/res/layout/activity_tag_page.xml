@@ -12,7 +12,7 @@
 
 
     <TextView
-        android:text="Event Title: "
+        android:text="@string/tag_page_title"
         android:id="@+id/titleHeader"
         style="@style/TextStyle"/>
 
@@ -22,7 +22,7 @@
         style="@style/TextStyle.Detail"/>
 
     <TextView
-        android:text="Date and Time: "
+        android:text="@string/tag_page_datetime"
         android:id="@+id/dateHeader"
         android:layout_below="@id/titleHeader"
         android:layout_marginTop="10dp"
@@ -38,7 +38,7 @@
         />
 
     <TextView
-        android:text="Description: "
+        android:text="@string/tag_page_description"
         android:id="@+id/descriptionHeader"
         android:layout_below="@id/dateHeader"
         style="@style/TextStyle"/>
@@ -52,7 +52,7 @@
 
     <TextView
         android:layout_below="@id/description"
-        android:text="Location: "
+        android:text="@string/tag_page_location"
         android:id="@+id/locationHeader"
         style="@style/TextStyle"
         />
@@ -68,13 +68,13 @@
 
     <Button
         android:id="@+id/btnShare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Share Event"
+        android:text="@string/tag_page_share"
         android:onClick="shareEvent"
         android:layout_below="@id/mapLocation"
         android:layout_centerHorizontal="true"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        style="@style/Button"
         />
 
 </RelativeLayout>

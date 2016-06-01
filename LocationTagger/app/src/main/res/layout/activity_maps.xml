@@ -28,21 +28,21 @@
             android:id="@+id/btnAR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AR"
+            android:text="@string/tab_ar"
             android:layout_weight="5"
             />
         <Button
             android:id="@+id/btnMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Map"
+            android:text="@string/tab_map"
             android:layout_weight="5"
             />
         <Button
             android:id="@+id/btnList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="List"
+            android:text="@string/tab_list"
             android:layout_weight="5"/>
     </LinearLayout>
     <FrameLayout

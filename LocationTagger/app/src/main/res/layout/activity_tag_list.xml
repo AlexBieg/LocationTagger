@@ -8,18 +8,15 @@
 
     <TextView
         android:id="@+id/tagListTitle"
-        android:text="Event Tag List"
+        android:text="@string/event_tag_list_title"
         style="@style/TextStyle.Detail.Title"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="my tag"
+        android:text="@string/my_tag_button"
         android:id="@+id/btnMyTag"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:background="#C5CAE9"
+        style="@style/Button"
         />
 
     <LinearLayout
@@ -34,21 +31,21 @@
             android:id="@+id/btnAR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AR"
+            android:text="@string/tab_ar"
             android:layout_weight="5"
             />
         <Button
             android:id="@+id/btnMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Map"
+            android:text="@string/tab_map"
             android:layout_weight="5"
             />
         <Button
             android:id="@+id/btnList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="List"
+            android:text="@string/tab_list"
             android:layout_weight="5"/>
     </LinearLayout>
 
@@ -62,8 +59,6 @@
         android:layout_above="@id/layoutBottomButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-
     </ListView>
 
 </RelativeLayout>
