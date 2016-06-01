@@ -19,7 +19,7 @@ public class Note {
     public boolean draw;
     public double distance;
     public double angle;
-
+    public float fontSize;
     public double lat;
     public double lng;
 
@@ -50,6 +50,7 @@ public class Note {
         this.angle = 0;
         this.lat = location.latitude;
         this.lng = location.longitude;
+        this.fontSize = 80;
     }
 
     @Exclude

@@ -92,10 +92,10 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
     public void update(){
         for (Note note : (ArrayList<Note>) notes.clone()) {
             if (currentLocation != null && curLocationChanged){
-               // Log.v(TAG, note.title + ": " + note.angle);
                 //get distance
                 double currToTag = distanceBetweenNotes(currentLocation, note);
                 note.distance = currToTag;
+                note.fontSize = (float)(100 * (1-note.distance));
 
                 //only calculate if we are drawing it
                 if (note.distance <= MAX_VEIWING_DISTANCE) {
@@ -103,7 +103,6 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
                     Note helperTag = new Note(currentLocation.lat + 1, currentLocation.lng);
                     double northLine = distanceBetweenNotes(currentLocation, helperTag);
                     double helpToTag = distanceBetweenNotes(helperTag, note);
-                    Log.v(TAG, "current location: " + currentLocation.lat + ", " + currentLocation.lng);
 
                     //find angle
                     double angleInDegree = radToDeg(Math.acos((northLine * northLine + currToTag * currToTag - helpToTag * helpToTag) / (2 * northLine * currToTag)));
@@ -118,12 +117,12 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
                 }
             }
 
+            //get x position
+            note.x = ((Double)((getXPos(note) + note.x) / 2)).intValue();
+
             //update everytime
             //get y position
-            note.y = viewHeight / 2;
-
-            //get x position
-            note.x = ((Double)((getXPos(note) + note.x) / 2)).intValue(); 
+            note.y = viewHeight/2;
 
             note.draw = (note.distance <= MAX_VEIWING_DISTANCE);
         }
@@ -137,14 +136,14 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
         if (rotDiff > 1) {//has rotation changed enough to update x
             double pointDiff = note.angle - rotation;
             if (rotation > 0) {
-                xPos = (-((viewWidth/2) / horAngle))*pointDiff + viewWidth/2;
+                xPos = (-((viewWidth/2) / horAngle))*pointDiff * 1.2 + viewWidth/2;
             } else if (rotation < 0) {
-                xPos = (-((viewWidth/2) / horAngle))*pointDiff + viewWidth/2;
+                xPos = (-((viewWidth/2) / horAngle))*pointDiff * 1.2 + viewWidth/2;
             } else {//rotation is 0
                 if (rotDiff < 50) { //went to 0 from small nubmers
-                    xPos = (-((viewWidth/2) / horAngle))*pointDiff + viewWidth/2;
+                    xPos = (-((viewWidth/2) / horAngle))*pointDiff * 1.2 + viewWidth/2;
                 } else {//at 180 degrees position
-                    xPos = (-((viewWidth/2) / horAngle ))*(note.angle - 180) + viewWidth/2;
+                    xPos = (-((viewWidth/2) / horAngle ))*(note.angle - 180) * 1.2 + viewWidth/2;
                 }
             }
         }
@@ -184,14 +183,13 @@ public class CameraOverlaySurfaceView extends SurfaceView implements SurfaceHold
      * @param canvas The canvas to draw on
      */
     public void render(Canvas canvas) {
-        //Log.v(TAG, "Render Loop");
         if (canvas == null) return; //if we didn't get a valid canvas for whatever reason
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         canvas.drawText("Rotation: " + rotation, 0, 80, whitePaint);
 
         for (Note note : (ArrayList<Note>)notes.clone()) {
             if (note.draw) {
-                Log.v(TAG, note.title + ": " + note.angle);
+                whitePaint.setTextSize(note.fontSize);
                 canvas.drawText(note.title, note.x, note.y, whitePaint);
             }
         }
