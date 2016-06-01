@@ -1,8 +1,10 @@
 package edu.uw.group2.locationtagger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -70,6 +72,24 @@ public class TagPage extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void shareEvent(View v) {
+
+        Bundle args = getIntent().getExtras();
+        final String title = args.getString("title");
+        long date = Long.valueOf(args.getString("date"));
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy 'at' hh:mm aa", Locale.US);
+        String dateTime = format.format(date);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, "Tag Title: " + title + " Date: " + dateTime);
+
+        Intent chooser = Intent.createChooser(intent, "Share This Tag");
+        if(intent.resolveActivity(getPackageManager()) != null){
+            startActivity(chooser);
         }
     }
 }

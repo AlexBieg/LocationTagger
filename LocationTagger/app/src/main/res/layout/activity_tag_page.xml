@@ -66,4 +66,15 @@
         android:layout_below="@id/locationHeader"
         />
 
+    <Button
+        android:id="@+id/btnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Share Event"
+        android:onClick="shareEvent"
+        android:layout_below="@id/mapLocation"
+        android:layout_centerHorizontal="true"
+        />
+
 </RelativeLayout>
